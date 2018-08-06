@@ -124,8 +124,10 @@ if __name__ == '__main__':
 	arguments = parser.parse_args(sys.argv[1:])	
 	#threshold = arguments.threshold	
 
-	in_dir = 'images'
-	out_dir = 'out'
+	#in_dir = 'images'
+	#out_dir = 'out'
+	in_dir = '/home/chichivica/Data/Datasets/Money/train'
+	out_dir = '/home/chichivica/Data/Datasets/Money/cut'	
 	in_dir = in_dir.rstrip('/')
 	out_dir = out_dir.rstrip('/')	
 	os.system('mkdir -p {0}'.format(out_dir))
