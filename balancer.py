@@ -81,7 +81,7 @@ def cut_boxes(in_dir, out_dir):
 	minsize = min({ len(dict_lists[class_str]) for class_str in dict_lists })
 	print('minsize =', minsize)
 
-	train_percent = 0.5
+	train_percent = 0.8
 
 	for i in range(minsize):
 		print('\ni =', i)
