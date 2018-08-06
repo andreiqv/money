@@ -27,10 +27,6 @@ from collections import namedtuple
 import operator # for min
 #import numpy as np
 
-from PIL import Image
-
-
-
 def parse_txtfile(txtfile_path):
 
 	boxes = dict()
@@ -47,8 +43,12 @@ def parse_txtfile(txtfile_path):
 def cut_boxes(in_dir, out_dir):
 
 	files = os.listdir(in_dir)
+
+	dict_counter = {'money':0, 'err':1}
+	mapsl_class_to_str = {'0': 'money', '1': 'err'}
+	maps_str_to_id = {'money': 0, 'err': 1}
 	
-	for index, filename in enumerate(files):
+	for filename in files:
 		#base = os.path.splitext(in_file_name)[0]
 		base = os.path.splitext(filename)[0]
 		ext = os.path.splitext(filename)[1]
@@ -56,55 +56,19 @@ def cut_boxes(in_dir, out_dir):
 		if not ext == '.jpg': 
 			continue
 
-		txtfile = base + '.txt'
-		jpgfile = filename
+		class_str = base.split('.')[-1]
+		dict_counter[class_str] += 1
 
-		jpgfile_path = in_dir + '/' + jpgfile
-		txtfile_path = in_dir + '/' + txtfile
-
-		if  not os.path.exists(txtfile_path):
-			print('txt file {0} does not exist.'.format(txtfile_path))
-			raise Exception('txt file does not exist.')
-
-		print('\n', txtfile_path)	
-		boxes = parse_txtfile(txtfile_path)
-
-		class_id_maps_to_str = {'0': 'money', '1': 'err'}
-
-		if len(boxes) > 0:
-
-			img = Image.open(jpgfile_path)
-			sx, sy = img.size
-
-			for counter in boxes:
-				box = boxes[counter]
-				class_id, x, y, w, h = box
-				x = float(x) * sx
-				y = float(y) * sy
-				w = float(w) * sx
-				h = float(h) * sy
-				area = (x - w/2, y - h/2, x + w/2, y + h/2)
-
-				print('{0}: class_id={1} x={2} y={3} w={4} h={5}'.\
-					format(counter, class_id, x, y, w, h))
-
-				#crop_and_save_image(out_filename, box)
-				newbasename = '{0:06}'.format(index)
-				box_filepath = out_dir + '/' + base + '_' + str(counter) \
-								+ '_' + class_id_maps_to_str[class_id] + '.jpg'
-				#box_filepath = out_dir + '/' + base + '_' + str(counter) \
-				#				+ '.' + class_id_maps_to_str[class_id] + '.jpg'
-				
-				img_box = img.crop(area)
-				img_box.save(box_filepath)
-			
-			img.close()
-
+		class_id = maps_str_to_id[class_str]
+		print('base={0}, class_str={1}, class_id={2}'.format(base, class_str, class_id))
+		
 		
 		#convert_file(in_file_path, out_file_path)
 
 		#os.system('mv {0} {1}'.format(jpg_file_old_path, jpg_file_new_path))
 		#print('{0} -> {1}'.format(jpg_file_old_path, jpg_file_new_path))
+
+	print(dict_counter)
 
 #---------------
 
@@ -124,10 +88,13 @@ if __name__ == '__main__':
 	arguments = parser.parse_args(sys.argv[1:])	
 	#threshold = arguments.threshold	
 
-	in_dir = 'images'
+	in_dir = '/mnt/work/ineru/data/train'
+	#in_dir = '/w/WORK/ineru/04_money/rep_money/examples'
 	out_dir = 'out'
 	in_dir = in_dir.rstrip('/')
-	out_dir = out_dir.rstrip('/')	
+	out_dir = out_dir.rstrip('/')
 	os.system('mkdir -p {0}'.format(out_dir))
 
 	cut_boxes(in_dir, out_dir)
+
+	# find /mnt/work/ineru/data/train -type f
