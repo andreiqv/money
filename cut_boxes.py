@@ -91,7 +91,7 @@ def cut_boxes(in_dir, out_dir):
 				#crop_and_save_image(out_filename, box)
 				newbasename = '{0:07}'.format(index)
 				box_filepath = out_dir + '/' + newbasename + '_' + str(counter) \
-								+ '_' + class_id_maps_to_str[class_id] + '.jpg'
+								+ '.' + class_id_maps_to_str[class_id] + '.jpg'
 				#box_filepath = out_dir + '/' + base + '_' + str(counter) \
 				#				+ '.' + class_id_maps_to_str[class_id] + '.jpg'
 				

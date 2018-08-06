@@ -63,8 +63,6 @@ def cut_boxes(in_dir, out_dir):
 		print('base={0}, class_str={1}, class_id={2}'.format(base, class_str, class_id))
 		
 		
-		#convert_file(in_file_path, out_file_path)
-
 		#os.system('mv {0} {1}'.format(jpg_file_old_path, jpg_file_new_path))
 		#print('{0} -> {1}'.format(jpg_file_old_path, jpg_file_new_path))
 
