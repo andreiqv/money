@@ -26,6 +26,7 @@ import logging
 from collections import namedtuple
 import operator # for min
 #import numpy as np
+import random
 
 def parse_txtfile(txtfile_path):
 
@@ -44,7 +45,9 @@ def cut_boxes(in_dir, out_dir):
 
 	files = os.listdir(in_dir)
 
-	dict_counter = {'money':0, 'err':1}
+	dict_counter = {'money':0, 'err':0}
+	dict_lists = {'money': [], 'err':[]}
+
 	mapsl_class_to_str = {'0': 'money', '1': 'err'}
 	maps_str_to_id = {'money': 0, 'err': 1}
 	
@@ -58,15 +61,42 @@ def cut_boxes(in_dir, out_dir):
 
 		class_str = base.split('.')[-1]
 		dict_counter[class_str] += 1
+		dict_lists[class_str].append(filename)
 
 		class_id = maps_str_to_id[class_str]
 		print('base={0}, class_str={1}, class_id={2}'.format(base, class_str, class_id))
+
+
 		
 		
 		#os.system('mv {0} {1}'.format(jpg_file_old_path, jpg_file_new_path))
 		#print('{0} -> {1}'.format(jpg_file_old_path, jpg_file_new_path))
 
 	print(dict_counter)
+
+	for class_str in dict_lists:
+		random.shuffle(dict_lists[class_str])
+		print(dict_lists[class_str])
+
+	minsize = min({ len(dict_lists[class_str]) for class_str in dict_lists })
+	print('minsize =', minsize)
+
+	train_percent = 0.5
+
+	for i in range(minsize):
+		print('\ni =', i)
+		for class_str in dict_lists:
+			filename = dict_lists[class_str][i]
+			in_file = in_dir+'/'+filename
+			if i < minsize * train_percent:
+				out_file = out_dir + '/train/' + filename 
+			else:
+				out_file = out_dir + '/valid/' + filename 
+			cmd = 'cp {0} {1}'.format(in_file, out_file)
+			print(cmd)			
+			os.system(cmd)
+
+
 
 #---------------
 
@@ -86,12 +116,16 @@ if __name__ == '__main__':
 	arguments = parser.parse_args(sys.argv[1:])	
 	#threshold = arguments.threshold	
 
-	in_dir = '/mnt/work/ineru/data/train'
+	#in_dir = '/mnt/work/ineru/data/train'
 	#in_dir = '/w/WORK/ineru/04_money/rep_money/examples'
-	out_dir = 'out'
+	#out_dir = '/w/WORK/ineru/04_money/rep_money/examples_balanced'
+	in_dir = '/home/chichivica/Data/Datasets/Money/cut'
+	out_dir = '/home/chichivica/Data/Datasets/Money/balanced'	
 	in_dir = in_dir.rstrip('/')
 	out_dir = out_dir.rstrip('/')
 	os.system('mkdir -p {0}'.format(out_dir))
+	os.system('mkdir -p {0}'.format(out_dir + '/train'))
+	os.system('mkdir -p {0}'.format(out_dir + '/valid'))
 
 	cut_boxes(in_dir, out_dir)
 
