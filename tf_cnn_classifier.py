@@ -29,7 +29,7 @@ import os.path
 if os.path.exists('.notebook'):
 	DISPLAY_INTERVAL, NUM_ITERS = 1, 5
 else:
-	DISPLAY_INTERVAL, NUM_ITERS = 10, 500
+	DISPLAY_INTERVAL, NUM_ITERS = 10, 5000
 
 f = gzip.open('dump.gz', 'rb')
 data = pickle.load(f)
@@ -138,7 +138,7 @@ with graph.as_default():
 				#min_in_grad = math.sqrt(min_valid_accuracy) * 360.0
 				#min_in_grad = min_valid_accuracy * 360.0
 				
-				print('iter {0:3}: train={1:0.3f} [{2:0.3f}%], valid={3:0.3f} [{4:0.3f}%] (max={5:0.3f})'.\
+				print('iter {0:3}: train={1:0.3f} [{2:0.2f}%], valid={3:0.3f} [{4:0.2f}%] (max={5:0.2f}%)'.\
 					format(iteration, train_loss, 100*train_accuracy, valid_loss, 100*valid_accuracy, max_valid_accuracy))
 
 				"""
