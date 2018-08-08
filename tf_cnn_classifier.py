@@ -139,7 +139,7 @@ with graph.as_default():
 				#min_in_grad = min_valid_accuracy * 360.0
 				
 				print('iter {0:3}: train={1:0.3f} [{2:0.2f}%], valid={3:0.3f} [{4:0.2f}%] (max={5:0.2f}%)'.\
-					format(iteration, train_loss, 100*train_accuracy, valid_loss, 100*valid_accuracy, max_valid_accuracy))
+					format(iteration, train_loss, 100*train_accuracy, valid_loss, 100*valid_accuracy, 100*max_valid_accuracy))
 
 				"""
 				#train_accuracy = loss.eval(feed_dict = {x:train['images'][0:BATCH_SIZE], y:train['labels'][0:BATCH_SIZE]})
@@ -175,8 +175,10 @@ with graph.as_default():
 			filenames = test['filenames'][i*BATCH_SIZE : (i+1)*BATCH_SIZE]
 			output_logits = logits.eval(feed_dict=feed_dict)
 			arg = tf.argmax(output_logits,1)
-			for j in range(BATCH_SIZE):
-				print('{0}: {1} - {2}', i*BATCH_SIZE+j, arg[j], filenames[j])
+			print(arg)
+			print(filnames)
+			#for j in range(BATCH_SIZE):
+			#	print('{0}: {1} - {2}', i*BATCH_SIZE+j, arg[j], filenames[j])
 
 		print('Test of model')
 		print('Test_accuracy={0:0.4f}'.format(test_accuracy))
