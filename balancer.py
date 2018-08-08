@@ -41,7 +41,7 @@ def parse_txtfile(txtfile_path):
 	return boxes
 
 
-def cut_boxes(in_dir, out_dir):
+def get_files_list(in_dir):
 
 	files = os.listdir(in_dir)
 
@@ -59,29 +59,31 @@ def cut_boxes(in_dir, out_dir):
 		if not ext == '.jpg': 
 			continue
 
-		class_str = base.split('.')[-1]
+		class_str = base.split('_')[-1]
 		dict_counter[class_str] += 1
 		dict_lists[class_str].append(filename)
 
 		class_id = maps_str_to_id[class_str]
 		print('base={0}, class_str={1}, class_id={2}'.format(base, class_str, class_id))
 
-
-		
 		
 		#os.system('mv {0} {1}'.format(jpg_file_old_path, jpg_file_new_path))
 		#print('{0} -> {1}'.format(jpg_file_old_path, jpg_file_new_path))
 
-	print(dict_counter)
+	#print(dict_counter)
 
 	for class_str in dict_lists:
 		random.shuffle(dict_lists[class_str])
 		print(dict_lists[class_str])
 
+	return dict_lists
+
+
+def copy_files_balanced(in_dir, out_dir, dict_lists, train_percent=0.8):
+	# copy images to directories train and valid:
+	
 	minsize = min({ len(dict_lists[class_str]) for class_str in dict_lists })
 	print('minsize =', minsize)
-
-	train_percent = 0.8
 
 	for i in range(minsize):
 		print('\ni =', i)
@@ -110,6 +112,7 @@ def createParser ():
 
 	return parser
 
+
 if __name__ == '__main__':	
 
 	parser = createParser()
@@ -117,16 +120,19 @@ if __name__ == '__main__':
 	#threshold = arguments.threshold	
 
 	#in_dir = '/mnt/work/ineru/data/train'
-	#in_dir = '/w/WORK/ineru/04_money/rep_money/examples'
-	#out_dir = '/w/WORK/ineru/04_money/rep_money/examples_balanced'
-	in_dir = '/home/chichivica/Data/Datasets/Money/cut'
-	out_dir = '/home/chichivica/Data/Datasets/Money/balanced'	
+	in_dir = '/w/WORK/ineru/04_money/rep_money/examples'
+	out_dir = '/w/WORK/ineru/04_money/rep_money/examples_balanced'
+	
+	#in_dir = '/home/chichivica/Data/Datasets/Money/cut'
+	#out_dir = '/home/chichivica/Data/Datasets/Money/balanced'	
+	
 	in_dir = in_dir.rstrip('/')
 	out_dir = out_dir.rstrip('/')
 	os.system('mkdir -p {0}'.format(out_dir))
 	os.system('mkdir -p {0}'.format(out_dir + '/train'))
 	os.system('mkdir -p {0}'.format(out_dir + '/valid'))
 
-	cut_boxes(in_dir, out_dir)
+	dict_lists = get_files_list(in_dir)
+	copy_files_balanced(in_dir, out_dir, dict_lists, train_percent=0.6)
 
 	# find /mnt/work/ineru/data/train -type f
