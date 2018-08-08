@@ -27,9 +27,9 @@ shape = height, width, color
 
 import os.path
 if os.path.exists('.notebook'):
-	DISPLAY_INTERVAL, NUM_ITERS = 1, 5
+	DISPLAY_INTERVAL, NUM_ITERS = 1, 50
 else:
-	DISPLAY_INTERVAL, NUM_ITERS = 10, 5000
+	DISPLAY_INTERVAL, NUM_ITERS = 10, 500
 
 f = gzip.open('dump.gz', 'rb')
 data = pickle.load(f)
@@ -166,11 +166,6 @@ with graph.as_default():
 		# Test of model
 		#HERE SOME ERROR ON GPU OCCURS
 		print('Test of model:')
-		test_accuracy = np.mean([ accuracy.eval( \
-					feed_dict={x:test['images'][i*BATCH_SIZE:(i+1)*BATCH_SIZE], \
-					y:test['labels'][i*BATCH_SIZE:(i+1)*BATCH_SIZE]}) \
-					for i in range(0,num_test_batches)])
-		print('Test_accuracy={0:0.2f}%'.format(100*test_accuracy))
 		
 		# inference
 		for i in range(num_test_batches):
@@ -183,8 +178,17 @@ with graph.as_default():
 			#print(filenames)
 			#print(output_logits)
 			#print(args)
-			for j in range(BATCH_SIZE):
-				print('{0}: {1} - {2}'.format(i*BATCH_SIZE+j, args[j], filenames[j]))
+			
+			#for j in range(BATCH_SIZE):
+			#	print('{0}: {1} - {2}'.format(i*BATCH_SIZE+j, args[j], filenames[j]))
+			j = 0 # only 1 from batch
+			print('{0}: {1} - {2}'.format(i*BATCH_SIZE+j, args[j], filenames[j]))
+
+		test_accuracy = np.mean([ accuracy.eval( \
+					feed_dict={x:test['images'][i*BATCH_SIZE:(i+1)*BATCH_SIZE], \
+					y:test['labels'][i*BATCH_SIZE:(i+1)*BATCH_SIZE]}) \
+					for i in range(0,num_test_batches)])
+		print('Test_accuracy={0:0.2f}%'.format(100*test_accuracy))
 
 
 		"""
