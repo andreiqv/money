@@ -29,7 +29,7 @@ import os.path
 if os.path.exists('.notebook'):
 	DISPLAY_INTERVAL, NUM_ITERS = 1, 50
 else:
-	DISPLAY_INTERVAL, NUM_ITERS = 10, 500
+	DISPLAY_INTERVAL, NUM_ITERS = 10, 50000
 
 f = gzip.open('dump.gz', 'rb')
 data = pickle.load(f)
