@@ -165,23 +165,27 @@ with graph.as_default():
 
 		# Test of model
 		#HERE SOME ERROR ON GPU OCCURS
-		test_accuracy = np.mean([ loss.eval( \
-			feed_dict={x:test['images'][i*BATCH_SIZE : (i+1)*BATCH_SIZE]}) \
-			for i in range(num_test_batches) ])
+		print('Test of model:')
+		test_accuracy = np.mean([ accuracy.eval( \
+					feed_dict={x:test['images'][i*BATCH_SIZE:(i+1)*BATCH_SIZE], \
+					y:test['labels'][i*BATCH_SIZE:(i+1)*BATCH_SIZE]}) \
+					for i in range(0,num_test_batches)])
+		print('Test_accuracy={0:0.2f}%'.format(100*test_accuracy))
 		
+		# inference
 		for i in range(num_test_batches):
 			feed_dict = {x:test['images'][i*BATCH_SIZE : (i+1)*BATCH_SIZE]}
 			labels = test['labels'][i*BATCH_SIZE : (i+1)*BATCH_SIZE]
 			filenames = test['filenames'][i*BATCH_SIZE : (i+1)*BATCH_SIZE]
 			output_logits = logits.eval(feed_dict=feed_dict)
-			arg = tf.argmax(output_logits,1)
-			print(arg)
-			print(filnames)
-			#for j in range(BATCH_SIZE):
-			#	print('{0}: {1} - {2}', i*BATCH_SIZE+j, arg[j], filenames[j])
+			#arg = tf.argmax(output_logits, 1)
+			args = np.argmax(output_logits, axis=1)
+			#print(filenames)
+			#print(output_logits)
+			#print(args)
+			for j in range(BATCH_SIZE):
+				print('{0}: {1} - {2}'.format(i*BATCH_SIZE+j, args[j], filenames[j]))
 
-		print('Test of model')
-		print('Test_accuracy={0:0.4f}'.format(test_accuracy))
 
 		"""
 		print('Test model')
