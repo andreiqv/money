@@ -6,6 +6,7 @@ def valid_weights_in_dir(in_dir):
 	datafile = 'data/money_nonb.data'
 
 	files = os.listdir(in_dir)
+	files.sort()
 	res_dict = dict()
 
 	for index, filename in enumerate(files):
