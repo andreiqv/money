@@ -31,7 +31,7 @@ def valid_weights_in_dir(in_dir):
 
 	print('\n\nRESULTS:')
 	for epoch in res_dict:
-		print('{0}: - {1}'.format(epoch, res_dict[epoch])
+		print('{0}: - {1}'.format(epoch, res_dict[epoch]))
 
 
 
