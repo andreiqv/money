@@ -15,7 +15,7 @@ def valid_weights_in_dir(in_dir):
 		ext = os.path.splitext(filename)[1]
 		if not ext == '.weights': continue
 		network_name = '_'.join(base.split('_')[:-1])
-		epoch = base.split('_')[-1]
+		epoch = int(base.split('_')[-1])
 		weights_filepath = in_dir + '/' + filename
 
 		cmd = './darknet classifier valid {0} cfg/{1}.cfg {2} > {3}'\
@@ -31,9 +31,11 @@ def valid_weights_in_dir(in_dir):
 
 
 	print('\n\nRESULTS:')
-	for epoch in res_dict:
-		print('{0}: - {1}'.format(epoch, res_dict[epoch]))
+	#for epoch in res_dict:
+	#	print('{0}: {1}'.format(epoch, res_dict[epoch]))
 
+	for key, value in sorted(res_dict.items(), key=lambda x: x[0]):		
+		print('{0}: {1}'.format(key, value))
 
 
 if __name__ == '__main__':

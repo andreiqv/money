@@ -70,11 +70,12 @@ def get_files_list(in_dir):
 		#os.system('mv {0} {1}'.format(jpg_file_old_path, jpg_file_new_path))
 		#print('{0} -> {1}'.format(jpg_file_old_path, jpg_file_new_path))
 
-	#print(dict_counter)
+	print(dict_counter)
+
 
 	for class_str in dict_lists:
 		random.shuffle(dict_lists[class_str])
-		print(dict_lists[class_str])
+		#print(dict_lists[class_str])
 
 	return dict_lists
 
@@ -119,8 +120,8 @@ if __name__ == '__main__':
 	arguments = parser.parse_args(sys.argv[1:])	
 	#threshold = arguments.threshold	
 
-	#in_dir = '/mnt/work/ineru/data/train'
-	in_dir = '/w/WORK/ineru/04_money/rep_money/examples'
+	in_dir = '/mnt/work/ineru/data/cut'
+	#in_dir = '/w/WORK/ineru/04_money/rep_money/examples'
 	out_dir = '/w/WORK/ineru/04_money/rep_money/examples_balanced'
 	
 	#in_dir = '/home/chichivica/Data/Datasets/Money/cut'
@@ -133,6 +134,6 @@ if __name__ == '__main__':
 	os.system('mkdir -p {0}'.format(out_dir + '/valid'))
 
 	dict_lists = get_files_list(in_dir)
-	copy_files_balanced(in_dir, out_dir, dict_lists, train_percent=0.6)
+	#copy_files_balanced(in_dir, out_dir, dict_lists, train_percent=0.6)
 
 	# find /mnt/work/ineru/data/train -type f
