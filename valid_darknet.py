@@ -34,11 +34,26 @@ def valid_weights_in_dir(in_dir):
 	#for epoch in res_dict:
 	#	print('{0}: {1}'.format(epoch, res_dict[epoch]))
 
-	for key, value in sorted(res_dict.items(), key=lambda x: x[0]):		
-		print('{0}: {1}'.format(key, value))
+	max_acc = 0.0
+	max_epoch = 0
+	f = open('results.txt', 'wt')
+	for epoch, result in sorted(res_dict.items(), key=lambda x: x[0]):
+		str1 = '{0}: {1}'.format(epoch, result)	
+		print(str1)
+		f.write(str1 + '\n')
+		acc = float(result.split()[3])
+		if acc > max_acc:
+			max_acc = acc
+			max_epoch = epoch
+
+	str1 = 'max_acc = {0} at epoch {1}'.format(max_acc, max_epoch)		
+	print(str1)
+	f.write(str1 + '\n')
+	f.close()
+
 
 
 if __name__ == '__main__':
 
-	in_dir = 'backup'
+	in_dir = 'backup/money_tiny'
 	valid_weights_in_dir(in_dir)
