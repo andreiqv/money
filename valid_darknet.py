@@ -41,7 +41,7 @@ def valid_weights_in_dir(in_dir):
 		str1 = '{0}: {1}'.format(epoch, result)	
 		print(str1)
 		f.write(str1 + '\n')
-		acc = float(result.split()[3].srtip(','))
+		acc = float(result.split()[3].strip(','))
 		if acc > max_acc:
 			max_acc = acc
 			max_epoch = epoch
