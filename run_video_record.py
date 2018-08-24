@@ -21,7 +21,7 @@ def run_record(in_dir, i):
 		#cmd = './darknet classifier valid {0} cfg/{1}.cfg {2} > {3}'\
 		#	.format(datafile, network_name, weights_filepath, tmpfile)
 
-		cmd = "..//darknet detector demo ../money.data ../yolov3-money.cfg"\
+		cmd = "../darknet detector demo ../money.data ../yolov3-money.cfg"\
 			 " ../yolov3-money_40000.weights {0} -thresh 0.1 -i {0} -prefix {1}"\
 			 .format(in_file, out_file, i)
 
