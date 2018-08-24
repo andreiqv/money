@@ -7,7 +7,6 @@ def run_record(in_dir, i):
 	#datafile = 'data/money_nonb.data'
 
 	files = os.listdir(in_dir)
-	files.sort()
 
 	for index, filename in enumerate(files):
 
