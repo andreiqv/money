@@ -46,6 +46,10 @@ if __name__ == '__main__':
 	arguments = parser.parse_args(sys.argv[1:])			
 	print('set arguments.i =', arguments.i)
 
+	os.system('mkdir -p 0')
+	os.system('mkdir -p 1')
+	os.system('mkdir -p 2')
+
 	i = arguments.i
 	in_dir = '/home/chichivica/Data/Datasets/Money/raw_video/{0}'.format(i)
 	run_record(in_dir, i)
