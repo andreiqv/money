@@ -136,7 +136,7 @@ def cut_boxes(in_dir, out_dir):
 					if not intersection: 
 						img_box = img.crop(area)						
 						img_box.save(box_filepath)
-						print('Saved frame ({},{}) in {}'.format(newx, newy, box_filepath))
+						print('Saved frame ({},{}) in {}'.format(xnew, ynew, box_filepath))
 					else:
 						print('Intersection with the frame in ({:.2f},{:.2f})'.\
 							format(x1, y1))
