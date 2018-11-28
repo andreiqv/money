@@ -34,14 +34,18 @@ from PIL import Image
 
 
 def parse_txtfile(txtfile_path):
+	""" Returns: dict, where key is a line number in the file, 
+			and value is a list of the following form: [class_id, x, y, w, h]
+	"""
 
 	boxes = dict()
 
 	with open(txtfile_path, 'rt') as f:		
 		for counter, line in enumerate(f):
+			boxes[counter] = line.split()
+
 			#class_id, x, y, w, h = line.split()			
 			#boxes[counter] = {'class_id': class_id, 'x': x, 'y': y, 'w': w, 'h': h, '5':tuple5}
-			boxes[counter] = line.split()
 
 	return boxes
 
@@ -81,13 +85,17 @@ def cut_boxes(in_dir, out_dir):
 			for counter in boxes:
 				
 				box = boxes[counter]
-				class_id, x, y, w, h = box
+				class_id, xr, yr, wr, hr = box  # "r" means relative units
 
-				d = 7 # frame width
-				x = float(x) * sx + d
-				y = float(y) * sy + d
-				w = float(w) * sx + d
-				h = float(h) * sy + d
+				def to_absolute_value(xr, yr, wr, hr):				
+					frame_width = 7 # frame width (to increase the window size)
+					x = float(xr) * sx
+					y = float(yr) * sy
+					w = float(wr) * sx + frame_width
+					h = float(hr) * sy + frame_width
+					return x, y, w, h
+
+				x, y, w, h = to_absolute_value(xr, yr, wr, hr)
 
 				area = [x - w/2, y - h/2, x + w/2, y + h/2]
 				if area[0] < 0: area[0] = 0
@@ -95,7 +103,7 @@ def cut_boxes(in_dir, out_dir):
 				if area[2] > sx: area[2] = sx
 				if area[3] > sy: area[3] = sy
 
-				print('{0}: class_id={1} x={2} y={3} w={4} h={5}'.\
+				print('{}: class_id={} x={:.2f} y={:.2f} w={:.2f} h={:.2f}'.\
 					format(counter, class_id, x, y, w, h))
 
 				#crop_and_save_image(out_filename, box)
@@ -103,16 +111,33 @@ def cut_boxes(in_dir, out_dir):
 				box_filepath = out_dir + '/' + newbasename + '_' + str(counter) \
 								+ '.' + class_id_maps_to_str[class_id] + '.jpg'
 
+				"""
 				img_box = img.crop(area)
 				img_box.save(box_filepath)
+				"""
 
 				if class_id == '0': # money
 					xshift = -w if x > sx/2 else w
-					area = (x + xshift - w/2, y - h/2, x + xshift + w/2, y + h/2)
+					xnew = x + xshift
+					area = (xnew - w/2, y - h/2, xnew + w/2, y + h/2)
 					box_filepath = out_dir + '/' + newbasename + '_shift_' + str(counter) \
-								+ '.' + class_id_maps_to_str['1'] + '.jpg'	
-					img_box = img.crop(area)
-					img_box.save(box_filepath)
+								+ '.' + class_id_maps_to_str['1'] + '.jpg'
+					
+					intersection = False
+					for i1 in boxes:
+						class1, xr1, yr1, wr1, hr1 = boxes[i1]
+						x1, y1, w1, h1 = to_absolute_value(xr1, yr1, wr1, hr1)
+						if abs(xnew - x1) < 2 * w and abs(y - y1) < 2 * h:
+							intersection = True
+							break
+
+					if not intersection: 
+						img_box = img.crop(area)						
+						img_box.save(box_filepath)
+						print('Saved frame {} in {}'.format(area, box_filepath))
+					else:
+						print('There was an intersection with the frame {}'.\
+							format([x1, y1, w1, h1]))
 
 			img.close()
 
@@ -143,7 +168,7 @@ if __name__ == '__main__':
 	#in_dir = 'images'
 	#out_dir = 'out'
 	in_dir = '/home/andrei/Data/Datasets/Money/train/'
-	out_dir = '/home/andrei/Data/Datasets/Money/cut2'	
+	out_dir = '/home/andrei/Data/Datasets/Money/cut3'	
 	in_dir = in_dir.rstrip('/')
 	out_dir = out_dir.rstrip('/')	
 	os.system('mkdir -p {0}'.format(out_dir))
