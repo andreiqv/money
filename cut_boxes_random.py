@@ -121,7 +121,7 @@ def cut_boxes(in_dir, out_dir):
 					xnew = x + xshift
 					ynew = y
 					area = (xnew - w/2, ynew - h/2, xnew + w/2, ynew + h/2)
-					print('New shifted position = ({},{})'.format(xnew, ynew))
+					print('New shifted position = ({:.2f},{:.2f})'.format(xnew, ynew))
 					box_filepath = out_dir + '/' + newbasename + '_shift_' + str(counter) \
 								+ '.' + class_id_maps_to_str['1'] + '.jpg'
 					
@@ -136,9 +136,9 @@ def cut_boxes(in_dir, out_dir):
 					if not intersection: 
 						img_box = img.crop(area)						
 						img_box.save(box_filepath)
-						print('Saved frame {} in {}'.format(area, box_filepath))
+						print('Saved frame ({},{}) in {}'.format(newx, newy, box_filepath))
 					else:
-						print('Intersection with the frame in ({},{})'.\
+						print('Intersection with the frame in ({:.2f},{:.2f})'.\
 							format(x1, y1))
 
 			img.close()
