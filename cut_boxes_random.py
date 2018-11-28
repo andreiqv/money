@@ -114,7 +114,7 @@ def cut_boxes(in_dir, out_dir):
 								+ '.' + class_id_maps_to_str[class_id] + '.jpg'	
 					img_box = img.crop(area)
 					img_box.save(box_filepath)
-													
+
 			img.close()
 
 		
@@ -143,8 +143,8 @@ if __name__ == '__main__':
 
 	#in_dir = 'images'
 	#out_dir = 'out'
-	in_dir = '/home/chichivica/Data/Datasets/Money/train'
-	out_dir = '/home/chichivica/Data/Datasets/Money/cut2'	
+	in_dir = '/home/andrei/Data/Datasets/Money/train/'
+	out_dir = '/home/andrei/Data/Datasets/Money/cut2'	
 	in_dir = in_dir.rstrip('/')
 	out_dir = out_dir.rstrip('/')	
 	os.system('mkdir -p {0}'.format(out_dir))
