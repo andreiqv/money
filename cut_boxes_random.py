@@ -120,6 +120,7 @@ def cut_boxes(in_dir, out_dir):
 					xshift = -w if x > sx/2 else w
 					xnew = x + xshift
 					area = (xnew - w/2, y - h/2, xnew + w/2, y + h/2)
+					print('Shift area: {}'.format(area))
 					box_filepath = out_dir + '/' + newbasename + '_shift_' + str(counter) \
 								+ '.' + class_id_maps_to_str['1'] + '.jpg'
 					
