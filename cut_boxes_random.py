@@ -106,7 +106,7 @@ def cut_boxes(in_dir, out_dir):
 				img_box = img.crop(area)
 				img_box.save(box_filepath)
 
-				if class_id == '1':
+				if class_id == '0': # money
 					xshift = -w if x > sx/2 else w
 					area = (x + xshift - w/2, y - h/2, x + xshift + w/2, y + h/2)
 					box_filepath = out_dir + '/' + newbasename + '_shift_' + str(counter) \
