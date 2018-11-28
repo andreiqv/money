@@ -89,8 +89,7 @@ def cut_boxes(in_dir, out_dir):
 				w = float(w) * sx + d
 				h = float(h) * sy + d
 
-				area = (x - w/2, y - h/2, x + w/2, y + h/2)
-				
+				area = [x - w/2, y - h/2, x + w/2, y + h/2]
 				if area[0] < 0: area[0] = 0
 				if area[1] < 0: area[1] = 0
 				if area[2] > sx: area[2] = sx
