@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
+Cut boxes.
+
 INPUT FORMAT:  class x y w h
 <class-id> <x> <y> <width> <height>
 0 0.2123 0.2371 0.7735 0.9142
@@ -127,7 +129,7 @@ if __name__ == '__main__':
 	#in_dir = 'images'
 	#out_dir = 'out'
 	in_dir = '/home/chichivica/Data/Datasets/Money/train'
-	out_dir = '/home/chichivica/Data/Datasets/Money/cut'	
+	out_dir = '/home/chichivica/Data/Datasets/Money/cut2'	
 	in_dir = in_dir.rstrip('/')
 	out_dir = out_dir.rstrip('/')	
 	os.system('mkdir -p {0}'.format(out_dir))
