@@ -119,8 +119,9 @@ def cut_boxes(in_dir, out_dir):
 				if class_id == '0': # money
 					xshift = -w if x > sx/2 else w
 					xnew = x + xshift
-					area = (xnew - w/2, y - h/2, xnew + w/2, y + h/2)
-					print('Shift area: {}'.format(area))
+					ynew = y
+					area = (xnew - w/2, ynew - h/2, xnew + w/2, ynew + h/2)
+					print('Shifted position: xnew={},ynew={}'.format(xnew, ynew))
 					box_filepath = out_dir + '/' + newbasename + '_shift_' + str(counter) \
 								+ '.' + class_id_maps_to_str['1'] + '.jpg'
 					
@@ -128,7 +129,7 @@ def cut_boxes(in_dir, out_dir):
 					for i1 in boxes:
 						class1, xr1, yr1, wr1, hr1 = boxes[i1]
 						x1, y1, w1, h1 = to_absolute_value(xr1, yr1, wr1, hr1)
-						if abs(xnew - x1) < 2 * w and abs(y - y1) < 2 * h:
+						if abs(xnew - x1) < 2 * w and abs(ynew - y1) < 2 * h:
 							intersection = True
 							break
 
@@ -137,8 +138,8 @@ def cut_boxes(in_dir, out_dir):
 						img_box.save(box_filepath)
 						print('Saved frame {} in {}'.format(area, box_filepath))
 					else:
-						print('There was an intersection with the frame {}'.\
-							format([x1, y1, w1, h1]))
+						print('Intersection with the frame in ({},{})'.\
+							format(x1, y1))
 
 			img.close()
 
