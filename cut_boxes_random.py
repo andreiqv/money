@@ -119,7 +119,7 @@ def cut_boxes(in_dir, out_dir):
 				
 				#img_box = img.crop(area)
 				#img_box.save(box_filepath)
-				count[lass_id] += 1
+				count[class_id] += 1
 				
 
 				if class_id == '0': # money
