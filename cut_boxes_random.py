@@ -177,7 +177,7 @@ if __name__ == '__main__':
 	#in_dir = 'images'
 	#out_dir = 'out'
 	in_dir = '/home/andrei/Data/Datasets/Money/train/'
-	out_dir = '/home/andrei/Data/Datasets/Money/cut3'	
+	out_dir = '/home/andrei/Data/Datasets/Money/cut2'	
 	in_dir = in_dir.rstrip('/')
 	out_dir = out_dir.rstrip('/')	
 	os.system('mkdir -p {0}'.format(out_dir))
