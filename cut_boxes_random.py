@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Cut boxes by coordinates + random
+Cut boxes by coordinates + shift.
 
 INPUT FORMAT:  class x y w h
 <class-id> <x> <y> <width> <height>
@@ -53,6 +53,8 @@ def parse_txtfile(txtfile_path):
 def cut_boxes(in_dir, out_dir):
 
 	files = os.listdir(in_dir)
+
+	count_intersection = 0
 	
 	for index, filename in enumerate(files):
 		#base = os.path.splitext(in_file_name)[0]
@@ -121,7 +123,7 @@ def cut_boxes(in_dir, out_dir):
 					xnew = x + xshift
 					ynew = y
 					area = (xnew - w/2, ynew - h/2, xnew + w/2, ynew + h/2)
-					print('New shifted position = ({:.2f},{:.2f})'.format(xnew, ynew))
+					print('New shifted position = ({:.2f}, {:.2f})'.format(xnew, ynew))
 					box_filepath = out_dir + '/' + newbasename + '_shift_' + str(counter) \
 								+ '.' + class_id_maps_to_str['1'] + '.jpg'
 					
@@ -130,20 +132,22 @@ def cut_boxes(in_dir, out_dir):
 						class1, xr1, yr1, wr1, hr1 = boxes[i1]
 						x1, y1, w1, h1 = to_absolute_value(xr1, yr1, wr1, hr1)
 						if abs(xnew - x1) < w and abs(ynew - y1) < h:
-							intersection = True
+							intersection = True							
 							break
 
 					if not intersection: 
 						img_box = img.crop(area)						
 						img_box.save(box_filepath)
-						print('Saved frame ({:.2f},{:.2f}) in {}'.format(xnew, ynew, box_filepath))
+						print('Saved frame ({:.2f}, {:.2f}) in {}'.format(xnew, ynew, box_filepath))
 					else:
-						print('Intersection with the frame in ({:.2f},{:.2f})'.\
+						print('Intersection with the frame in ({:.2f}, {:.2f})!'.\
 							format(x1, y1))
+						count_intersection += 1					
 
 			img.close()
 
-		
+	print('count_intersection=', count_intersection)
+
 		#convert_file(in_file_path, out_file_path)
 
 		#os.system('mv {0} {1}'.format(jpg_file_old_path, jpg_file_new_path))
