@@ -56,6 +56,9 @@ def cut_boxes(in_dir, out_dir):
 
 	count_intersection = 0
 	count_shift_files = 0
+	count = dict()
+	count['0'] = 0
+	count['1'] = 0
 	
 	for index, filename in enumerate(files):
 		#base = os.path.splitext(in_file_name)[0]
@@ -113,10 +116,10 @@ def cut_boxes(in_dir, out_dir):
 				newbasename = '{0:07}'.format(index)
 				box_filepath = out_dir + '/' + newbasename + '_' + str(counter) \
 								+ '.' + class_id_maps_to_str[class_id] + '.jpg'
-
 				
-				img_box = img.crop(area)
-				img_box.save(box_filepath)
+				#img_box = img.crop(area)
+				#img_box.save(box_filepath)
+				count[lass_id] += 1
 				
 
 				if class_id == '0': # money
@@ -137,8 +140,8 @@ def cut_boxes(in_dir, out_dir):
 							break
 
 					if not intersection: 
-						img_box = img.crop(area)						
-						img_box.save(box_filepath)
+						#img_box = img.crop(area)						
+						#img_box.save(box_filepath)
 						print('Saved frame ({:.2f}, {:.2f}) in {}'.format(xnew, ynew, box_filepath))
 						count_shift_files += 1
 					else:
@@ -150,6 +153,9 @@ def cut_boxes(in_dir, out_dir):
 
 	print('count_intersection:', count_intersection)
 	print('count_shift_files:', count_shift_files)
+	print('count[0]:', count['0'])
+	print('count[1]:', count['1'])
+	
 
 		#convert_file(in_file_path, out_file_path)
 
